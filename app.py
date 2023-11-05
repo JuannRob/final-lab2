@@ -1,5 +1,4 @@
 # Aplicación principal guarda:
-#   libros en el carrito
 #   usuario actual
 
 from PyQt6.QtWidgets import QMainWindow, QApplication
