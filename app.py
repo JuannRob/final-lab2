@@ -13,9 +13,9 @@ class MiVentana(QMainWindow):
 
     # Inicia la app:
     #   biblioteca = Biblioteca([], [])
-    #   cliente = Cliente('Pedo', 'Papo', 'juan_k-po@gmail.com')
+    #   cliente = Cliente('Juan', 'Robledo', 'juannrob@gmail.com')
     #   transaccion = Compra(cliente, '12/12/12')
-
+    paj
     # Usuario agrega un libro:
     #   transaccion.agregarLibro(libro)
 
