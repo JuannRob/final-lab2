@@ -1,15 +1,21 @@
+import datetime
+
+
 class Compra():
-    def __init__(self, cliente, fecha):
+    def __init__(self, cliente):
         self.id = ''
         self.librosComprados = []
         self.cliente = cliente
-        self.fecha = fecha
+        self.fecha = None
 
     def agregarLibro(self, libro):
         self.librosComprados.append(libro)
 
     def agregarLibro(self):
         return None
+
+    def setHora(self):
+        self.fecha = datetime.datetime.now()
 
     def calcularTotal(self):
         total = 0
