@@ -11,10 +11,10 @@ class Compra():
     def agregarLibro(self, libro):
         self.librosComprados.append(libro)
 
-    def agregarLibro(self):
-        return None
+    def quitarLibro(self):
+        return
 
-    def setHora(self):
+    def fijarFecha(self):
         self.fecha = datetime.datetime.now()
 
     def calcularTotal(self):
@@ -22,4 +22,6 @@ class Compra():
         if len(self.librosComprados) > 0:
             for libro in self.librosComprados:
                 total += libro.precio
+        else:
+            total = 0
         return total

@@ -3,8 +3,8 @@ class Biblioteca():
         self.listaLibros = []
         self.listaCompras = []
 
-    def agregarLibro(self, Libro):
-        self.listaLibros.append(Libro)
+    def agregarLibro(self, libro):
+        self.listaLibros.append(libro)
 
     def eliminarLibro(self, id):
         return None

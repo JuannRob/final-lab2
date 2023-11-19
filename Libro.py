@@ -1,5 +1,5 @@
 class Libro():
-    def __init__(self, id, titulo, autor, fecha_pub, cantidad_paginas, editorial, generos, categoria, sinopsis, imagen, precio):
+    def __init__(self, id, titulo, autor, fecha_pub, cantidad_paginas, editorial, generos, categoria, sinopsis, precio):
         self.id = id
         self.titulo = titulo
         self.autor = autor
@@ -9,8 +9,7 @@ class Libro():
         self.generos = generos
         self.categoria = categoria
         self.sinopsis = sinopsis
-        self.imagen = imagen
-        self.precio = precio
+        self.precio = float(precio)
 
     def estaDisponible(self):
         return True
@@ -19,13 +18,14 @@ class Libro():
         return None
 
     def __str__(self):
-        return f'ID: {self.id}. Titulo: {self.titulo}. Autor: {self.autor}'
+        return f'ID: {self.id}. Titulo: {self.titulo}. Autor: {self.autor}. '
 
 
 class Fisico(Libro):
-    def __init__(self, id, titulo, autor, fecha_pub, cantidad_paginas, editorial, generos, categoria, sinopsis, imagen, tipo_tapa, dimensiones, stock):
+
+    def __init__(self, id, titulo, autor, fecha_pub, cantidad_paginas, editorial, generos, categoria, sinopsis, precio, tipo_tapa, dimensiones, stock):
         super().__init__(id, titulo, autor, fecha_pub, cantidad_paginas,
-                         editorial, generos, categoria, sinopsis, imagen)
+                         editorial, generos, categoria, sinopsis, precio)
         self.tipo_tapa = tipo_tapa
         self.dimensiones = dimensiones
         self.stock = stock
@@ -36,10 +36,16 @@ class Fisico(Libro):
     def reducirStock(self):
         self.stock -= 1
 
+    def __str__(self):
+        return super().__str__() + f'Tipo tapa: {self.tipo_tapa}, Dimensiones: {self.dimensiones}, Stock: {self.stock}'
+
 
 class Ebook(Libro):
-    def __init__(self, id, titulo, autor, fecha_pub, cantidad_paginas, editorial, generos, categoria, sinopsis, imagen, plataforma, formato):
+    def __init__(self, id, titulo, autor, fecha_pub, cantidad_paginas, editorial, generos, categoria, sinopsis, precio, plataforma, formato):
         super().__init__(id, titulo, autor, fecha_pub, cantidad_paginas,
-                         editorial, generos, categoria, sinopsis, imagen)
+                         editorial, generos, categoria, sinopsis, precio)
         self.plataforma = plataforma
         self.formato = formato
+
+    def __str__(self):
+        return super().__str__() + f'Plataforma: {self.plataforma}, formato: {self.formato}'
