@@ -133,7 +133,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_3" stretch="9,1,1">
+         <layout class="QVBoxLayout" name="verticalLayout_3" stretch="9,0,1,1">
           <property name="spacing">
            <number>10</number>
           </property>
@@ -154,6 +154,24 @@
           </property>
           <item>
            <widget class="QListWidget" name="carrito"/>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QPushButton" name="quitarSeleccion">
+              <property name="text">
+               <string>Quitar seleccion</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="quitarTodos">
+              <property name="text">
+               <string>Quitar todos</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item alignment="Qt::AlignRight">
            <widget class="QFrame" name="frame_3">

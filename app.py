@@ -1,11 +1,9 @@
-# Aplicación principal guarda:
-#   usuario actual
 import csv
 from Biblioteca import Biblioteca
 from Cliente import Cliente
 from Compra import Compra
 from Libro import Fisico, Ebook
-from PyQt6.QtWidgets import QMainWindow, QApplication, QMessageBox, QTableWidgetItem, QDialog
+from PyQt6.QtWidgets import QMainWindow, QApplication, QMessageBox, QTableWidgetItem, QDialog, QDialogButtonBox
 from PyQt6 import uic
 
 
@@ -13,10 +11,22 @@ class LoginDialog(QDialog):
     def __init__(self):
         super().__init__()
         uic.loadUi("./dialog.ui", self)
+        self.buttonBox.button(
+            QDialogButtonBox.StandardButton.Ok).setEnabled(False)
+        self.nombre.textChanged.connect(self.onChange)
+        self.apellido.textChanged.connect(self.onChange)
+        self.email.textChanged.connect(self.onChange)
+
+    def onChange(self):
+        okBtn = self.buttonBox.button(QDialogButtonBox.StandardButton.Ok)
+        if self.nombre.text() and self.apellido.text() and self.email.text():
+            okBtn.setEnabled(True)
+        else:
+            okBtn.setEnabled(False)
 
     def getCliente(self):
-        apellido = self.apellido.text()
         nombre = self.nombre.text()
+        apellido = self.apellido.text()
         email = self.email.text()
         return Cliente(nombre, apellido, email)
 
@@ -25,21 +35,22 @@ class MiVentana(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi("./win.ui", self)
+
         self.agregarLibro.clicked.connect(self.onAgregarLibro)
         self.comprar.clicked.connect(self.onComprar)
+        self.quitarSeleccion.clicked.connect(self.onQuitarSeleccion)
+        self.quitarTodos.clicked.connect(self.onQuitarTodos)
 
-        usuarioNuevo = None
+        self.comprar.setEnabled(False)
+
         self.biblioteca = Biblioteca()
-        loginDialog = LoginDialog()
-        if (loginDialog.exec()):
-            usuarioNuevo = loginDialog.getCliente()
-        self.cliente = usuarioNuevo  # creo cliente
-        self.compra = Compra(self.cliente)  # creo compra con cliente agregado
+        self.cliente = None
+        self.compra = None
+        self.ingresar()
 
         archivo = open('./libros.csv')
         data = csv.reader(archivo, delimiter=',', quotechar='"')
         data.__next__()  # salta la primera linea
-
         for fila in data:
             nuevoLibro = None
             if (not fila[14]):
@@ -66,26 +77,49 @@ class MiVentana(QMainWindow):
             self.tabla.setItem(
                 posicionFila, 6, QTableWidgetItem(str(libro.precio)))
 
+    def ingresar(self):
+        loginDialog = LoginDialog()
+        if loginDialog.exec():
+            self.cliente = loginDialog.getCliente()
+            self.compra = Compra(self.cliente)
+
     def actualizarCompra(self):
         self.carrito.clear()
         for libro in self.compra.librosComprados:
             self.carrito.addItem(f'{libro.titulo} - {libro.autor}')
         self.total.setText('$ ' + str(self.compra.calcularTotal()))
 
+        if self.carrito.count():
+            self.comprar.setEnabled(True)
+        else:
+            self.comprar.setEnabled(False)
+
     def onAgregarLibro(self):
-        filaActual = self.tabla.currentRow()
-        idSeleccionada = self.tabla.item(filaActual, 0).text()
+        self.comprar.setEnabled(True)
+        if self.cliente == None:
+            self.ingresar()
+        else:
+            filaActual = self.tabla.currentRow()
+            idSeleccionada = self.tabla.item(filaActual, 0).text()
 
-        libroEnCarrito = False
-        for libro in self.compra.librosComprados:
-            if idSeleccionada == libro.id:
-                libroEnCarrito = True
+            libroEnCarrito = False
+            for libro in self.compra.librosComprados:
+                if idSeleccionada == libro.id:
+                    libroEnCarrito = True
 
-        if not libroEnCarrito:
-            for libro in self.biblioteca.listaLibros:
-                if libro.id == idSeleccionada:
-                    self.compra.agregarLibro(libro)
-            self.actualizarCompra()
+            if not libroEnCarrito:
+                for libro in self.biblioteca.listaLibros:
+                    if libro.id == idSeleccionada:
+                        self.compra.agregarLibro(libro)
+                self.actualizarCompra()
+
+    def onQuitarSeleccion(self):
+        self.compra.quitarLibro(self.carrito.currentRow())
+        self.actualizarCompra()
+
+    def onQuitarTodos(self):
+        self.compra.quitarTodos()
+        self.actualizarCompra()
 
     def onComprar(self):
         self.compra.fijarFecha()
@@ -96,16 +130,18 @@ class MiVentana(QMainWindow):
         msjConfirmacion.setText('¿Desea realizar la compra?')
         msjConfirmacion.setIcon(QMessageBox.Icon.Question)
         msjConfirmacion.setStandardButtons(
-            QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         resultado = msjConfirmacion.exec()
-        if (resultado == QMessageBox.StandardButton.Ok):
+
+        if (resultado == QMessageBox.StandardButton.Yes):
             msjExito = QMessageBox()
-            msjExito.setWindowTitle('Éxito!')
+            msjExito.setWindowTitle('¡Éxito!')
             msjExito.setText(
                 'Compra realizada con éxito.\n\nSu recibo ha sido generado.')
             msjExito.setIcon(QMessageBox.Icon.Information)
             msjExito.setStandardButtons(QMessageBox.StandardButton.Ok)
             msjExito.exec()
+
             resumen = f'**********************************\n\nNombre y Apellido: {self.cliente.nombre} {self.cliente.apellido}\nLibros:\n'
             for libro in self.compra.librosComprados:
                 resumen += f'       * {libro.titulo} - {libro.autor}\n'

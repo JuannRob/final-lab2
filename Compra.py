@@ -11,8 +11,11 @@ class Compra():
     def agregarLibro(self, libro):
         self.librosComprados.append(libro)
 
-    def quitarLibro(self):
-        return
+    def quitarLibro(self, i):
+        self.librosComprados.pop(i)
+
+    def quitarTodos(self):
+        self.librosComprados.clear()
 
     def fijarFecha(self):
         self.fecha = datetime.datetime.now()
