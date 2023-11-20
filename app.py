@@ -31,7 +31,7 @@ class LoginDialog(QDialog):
         return Cliente(nombre, apellido, email)
 
 
-class MiVentana(QMainWindow):
+class VentanaPrincipal(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi("./win.ui", self)
@@ -114,12 +114,14 @@ class MiVentana(QMainWindow):
                 self.actualizarCompra()
 
     def onQuitarSeleccion(self):
-        self.compra.quitarLibro(self.carrito.currentRow())
-        self.actualizarCompra()
+        if self.carrito.count():
+            self.compra.quitarLibro(self.carrito.currentRow())
+            self.actualizarCompra()
 
     def onQuitarTodos(self):
-        self.compra.quitarTodos()
-        self.actualizarCompra()
+        if self.carrito.count():
+            self.compra.quitarTodos()
+            self.actualizarCompra()
 
     def onComprar(self):
         self.compra.fijarFecha()
@@ -142,16 +144,41 @@ class MiVentana(QMainWindow):
             msjExito.setStandardButtons(QMessageBox.StandardButton.Ok)
             msjExito.exec()
 
-            resumen = f'**********************************\n\nNombre y Apellido: {self.cliente.nombre} {self.cliente.apellido}\nLibros:\n'
+            resumen = f'**********************************\n\nNombre y Apellido: {self.cliente.nombre} {self.cliente.apellido}\nEmail: {self.cliente.email}\nLibros:\n'
             for libro in self.compra.librosComprados:
                 resumen += f'       * {libro.titulo} - {libro.autor}\n'
             resumen += f'Fecha: {self.compra.fecha.strftime("%d/%m/%Y (%H:%M:%S)")}\nTotal: $ {str(self.compra.calcularTotal())}\n\n**********************************'
             with open('recibo.txt', 'w') as f:
                 f.write(resumen)
-            app.quit()
+
+            self.recibo = Recibo(self.compra)
+            self.recibo.show()
+
+
+class Recibo(QMainWindow):
+    def __init__(self, compra):
+        super().__init__()
+        uic.loadUi("./recibo.ui", self)
+        self.salir.clicked.connect(self.onSalir)
+        self.compra = compra
+
+        self.cliente.setText(str(self.compra.cliente))
+        self.total.setText('Total: $' + str(self.compra.calcularTotal()))
+        self.fecha.setText(
+            'Fecha: ' + self.compra.fecha.strftime("%d/%m/%Y (%H:%M:%S)"))
+        for libro in self.compra.librosComprados:
+            self.librosLista.addItem(
+                f'{libro.titulo} - {libro.autor} |  ${str(libro.precio)}')
+
+    def onSalir(self):
+        app.quit()
+
+    def closeEvent(self, event):
+        event.accept()
+        app.quit()
 
 
 app = QApplication([])
-win = MiVentana()
+win = VentanaPrincipal()
 win.show()
 app.exec()
