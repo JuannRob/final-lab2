@@ -12,7 +12,7 @@ class Libro():
         self.precio = float(precio)
 
     def estaDisponible(self):
-        return True
+        return None
 
     def reducirStock(self):
         return None
@@ -28,7 +28,7 @@ class Fisico(Libro):
                          editorial, generos, categoria, sinopsis, precio)
         self.tipo_tapa = tipo_tapa
         self.dimensiones = dimensiones
-        self.stock = stock
+        self.stock = int(stock)
 
     def estaDisponible(self):
         return self.stock > 0
@@ -46,6 +46,12 @@ class Ebook(Libro):
                          editorial, generos, categoria, sinopsis, precio)
         self.plataforma = plataforma
         self.formato = formato
+
+    def estaDisponible(self):
+        return 'No fisico'
+
+    def reducirStock(self):
+        pass
 
     def __str__(self):
         return super().__str__() + f'Plataforma: {self.plataforma}, formato: {self.formato}'

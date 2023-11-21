@@ -124,9 +124,6 @@ class VentanaPrincipal(QMainWindow):
             self.actualizarCompra()
 
     def onComprar(self):
-        self.compra.fijarFecha()
-        self.biblioteca.agregarCompra(self.compra)
-
         msjConfirmacion = QMessageBox()
         msjConfirmacion.setWindowTitle('Confirmación')
         msjConfirmacion.setText('¿Desea realizar la compra?')
@@ -136,6 +133,12 @@ class VentanaPrincipal(QMainWindow):
         resultado = msjConfirmacion.exec()
 
         if (resultado == QMessageBox.StandardButton.Yes):
+
+            self.compra.fijarFecha()
+            self.biblioteca.agregarCompra(self.compra)
+            for libro in self.compra.librosComprados:
+                libro.reducirStock()
+
             msjExito = QMessageBox()
             msjExito.setWindowTitle('¡Éxito!')
             msjExito.setText(
