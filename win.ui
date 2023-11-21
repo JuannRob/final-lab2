@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>LibreriApp</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:rgb(250, 250, 250);</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_3">
     <item>
@@ -22,6 +25,9 @@
       </property>
       <item alignment="Qt::AlignBottom">
        <widget class="QFrame" name="frame">
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(255, 255, 255); border-radius: 24; </string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -39,9 +45,14 @@
           <widget class="QLabel" name="label">
            <property name="font">
             <font>
-             <family>Noto Sans Georgian</family>
-             <pointsize>25</pointsize>
+             <family>Volkswagen-Serial</family>
+             <pointsize>28</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>LibreriApp</string>
@@ -72,6 +83,9 @@
           </property>
           <item>
            <widget class="QTableWidget" name="tabla">
+            <property name="styleSheet">
+             <string notr="true">background-color:rgb(255, 255, 255);</string>
+            </property>
             <column>
              <property name="text">
               <string>ID</string>
@@ -146,6 +160,9 @@
                  <pointsize>25</pointsize>
                 </font>
                </property>
+               <property name="styleSheet">
+                <string notr="true">border-radius: 24; background-color:rgb(35, 197, 94)</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -187,12 +204,19 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QListWidget" name="carrito"/>
+           <widget class="QListWidget" name="carrito">
+            <property name="styleSheet">
+             <string notr="true">background-color:rgb(255, 255, 255);</string>
+            </property>
+           </widget>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
              <widget class="QPushButton" name="quitarSeleccion">
+              <property name="styleSheet">
+               <string notr="true">background-color:rgb(254, 120, 75);</string>
+              </property>
               <property name="text">
                <string>Quitar seleccion</string>
               </property>
@@ -200,6 +224,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="quitarTodos">
+              <property name="styleSheet">
+               <string notr="true">background-color:rgb(254, 120, 75)</string>
+              </property>
               <property name="text">
                <string>Quitar todos</string>
               </property>
@@ -226,7 +253,10 @@
               <widget class="QLabel" name="total">
                <property name="font">
                 <font>
-                 <pointsize>15</pointsize>
+                 <family>Volkswagen-Serial</family>
+                 <pointsize>16</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="text">
@@ -271,11 +301,21 @@
                </property>
                <property name="font">
                 <font>
+                 <family>Volkswagen-Serial</family>
                  <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                 <underline>false</underline>
+                 <strikeout>false</strikeout>
+                 <kerning>true</kerning>
                 </font>
                </property>
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border-radius:  24; background-color:rgb(35, 197, 94)</string>
                </property>
                <property name="text">
                 <string>Comprar</string>
