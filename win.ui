@@ -240,8 +240,21 @@ border-color: rgb(0, 0, 0);</string>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
              <widget class="QPushButton" name="quitarSeleccion">
+              <property name="minimumSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>250</width>
+                <height>250</height>
+               </size>
+              </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(254, 120, 75);</string>
+               <string notr="true">background-color:rgb(254, 120, 75);
+border-radius:10;</string>
               </property>
               <property name="text">
                <string>Quitar seleccion</string>
@@ -250,8 +263,15 @@ border-color: rgb(0, 0, 0);</string>
             </item>
             <item>
              <widget class="QPushButton" name="quitarTodos">
+              <property name="maximumSize">
+               <size>
+                <width>250</width>
+                <height>250</height>
+               </size>
+              </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(254, 120, 75)</string>
+               <string notr="true">background-color:rgb(254, 120, 75);
+border-radius: 10;</string>
               </property>
               <property name="text">
                <string>Quitar todos</string>
@@ -341,7 +361,7 @@ border-color: rgb(0, 0, 0);</string>
                 <enum>Qt::StrongFocus</enum>
                </property>
                <property name="styleSheet">
-                <string notr="true">border-radius:  24; background-color:rgb(35, 197, 94)</string>
+                <string notr="true">border-radius:  24; background-color:rgb(35, 197, 94);color:white</string>
                </property>
                <property name="text">
                 <string>Comprar</string>

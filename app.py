@@ -58,7 +58,8 @@ class VentanaPrincipal(QMainWindow):
 
         # deshabilita el boton comprar desde el comienzo y le cambia el color
         self.comprar.setEnabled(False)
-        self.comprar.setStyleSheet('background: rgb(25, 146, 69)')
+        self.comprar.setStyleSheet(
+            'background: rgb(25, 146, 69); border-radius:  24; color: white')
 
         # crea los objetos importantes, en el caso de cliente y compra estan vacíos al comienzo
         # llama a la funcion para ingresar
@@ -108,11 +109,13 @@ class VentanaPrincipal(QMainWindow):
         # activa o desactiva el boton y le cambia el color en cada caso
         if self.carrito.count():
             self.comprar.setEnabled(True)
-            self.comprar.setStyleSheet('background: rgb(35, 197, 94)')
+            self.comprar.setStyleSheet(
+                'background: rgb(35, 197, 94); border-radius:  24; color: white')
 
         else:
             self.comprar.setEnabled(False)
-            self.comprar.setStyleSheet('background: rgb(25, 146, 69)')
+            self.comprar.setStyleSheet(
+                'background: rgb(25, 146, 69); border-radius:  24; color: white')
             self.total.setText('Total')
 
     def actualizarBiblioteca(self):
