@@ -10,27 +10,34 @@ from PyQt6 import uic
 class LoginDialog(QDialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi("./dialog.ui", self)
+        uic.loadUi("./login.ui", self)
 
         self.buttonBox.button(
             QDialogButtonBox.StandardButton.Ok).setEnabled(False)
-        
-        #cuando se modifica cualquier input llama a la funcion onChange
+        self.buttonBox.button(
+            QDialogButtonBox.StandardButton.Ok).setStyleSheet(
+                "background-color: rgb(203, 95, 59); color: rgb(204, 204, 204);")  # pone color de deshabilitado
+
+        # cuando se modifica cualquier input llama a la funcion onChange
         self.nombre.textChanged.connect(self.onChange)
         self.apellido.textChanged.connect(self.onChange)
         self.email.textChanged.connect(self.onChange)
 
     def onChange(self):
-        #guardo el boton Ok
+        # guardo el boton Ok
         okBtn = self.buttonBox.button(QDialogButtonBox.StandardButton.Ok)
 
-        #si todos los inputs tienen texto se habilita el boton Ok
+        # si todos los inputs tienen texto se habilita el boton Ok. cambia el color respectivamente
         if self.nombre.text() and self.apellido.text() and self.email.text():
             okBtn.setEnabled(True)
+            okBtn.setStyleSheet(
+                "background-color:rgb(254, 120, 75); color:white;")
         else:
             okBtn.setEnabled(False)
+            okBtn.setStyleSheet(
+                "background-color: rgb(203, 95, 59); color: rgb(204, 204, 204);")
 
-    #crea y retorna un Cliente con los datos de los inputs
+    # crea y retorna un Cliente con los datos de los inputs
     def getCliente(self):
         nombre = self.nombre.text()
         apellido = self.apellido.text()
@@ -49,8 +56,9 @@ class VentanaPrincipal(QMainWindow):
         self.quitarSeleccion.clicked.connect(self.onQuitarSeleccion)
         self.quitarTodos.clicked.connect(self.onQuitarTodos)
 
-        # deshabilita el boton comprar desde el comienzo
+        # deshabilita el boton comprar desde el comienzo y le cambia el color
         self.comprar.setEnabled(False)
+        self.comprar.setStyleSheet('background: rgb(25, 146, 69)')
 
         # crea los objetos importantes, en el caso de cliente y compra estan vacíos al comienzo
         # llama a la funcion para ingresar
@@ -97,11 +105,14 @@ class VentanaPrincipal(QMainWindow):
                 f'{libro.titulo} - {libro.autor} |  ${str(libro.precio)}')
         self.total.setText('$ ' + str(self.compra.calcularTotal()))
 
-        # activa o desactiva el boton
+        # activa o desactiva el boton y le cambia el color en cada caso
         if self.carrito.count():
             self.comprar.setEnabled(True)
+            self.comprar.setStyleSheet('background: rgb(35, 197, 94)')
+
         else:
             self.comprar.setEnabled(False)
+            self.comprar.setStyleSheet('background: rgb(25, 146, 69)')
             self.total.setText('Total')
 
     def actualizarBiblioteca(self):
@@ -213,14 +224,14 @@ class VentanaPrincipal(QMainWindow):
 
 
 class Recibo(QMainWindow):
-    #al recibo le paso el objeto compra para que tenga todos los metodos y atributos
+    # al recibo le paso el objeto compra para que tenga todos los metodos y atributos
     def __init__(self, compra):
         super().__init__()
         uic.loadUi("./recibo.ui", self)
-        self.salir.clicked.connect(self.onSalir) #el boton llama a onSalir
+        self.salir.clicked.connect(self.onSalir)  # el boton llama a onSalir
         self.compra = compra  # aca guardo el objeto compra
 
-        #agrego la data del objeto compra para mostrar la info
+        # agrego la data del objeto compra para mostrar la info
         self.cliente.setText(str(self.compra.cliente))
         self.total.setText('Total: $' + str(self.compra.calcularTotal()))
         self.fecha.setText(
@@ -229,8 +240,8 @@ class Recibo(QMainWindow):
             self.librosLista.addItem(
                 f'{libro.titulo} - {libro.autor} |  ${str(libro.precio)}')
 
-    #cierra la ventana
-    def onSalir(self): 
+    # cierra la ventana
+    def onSalir(self):
         self.close()
 
 

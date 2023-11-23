@@ -14,7 +14,8 @@
    <string>LibreriApp</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:rgb(250, 250, 250);</string>
+    <string notr="true">background-color: rgb(255, 255, 255);
+    </string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_3">

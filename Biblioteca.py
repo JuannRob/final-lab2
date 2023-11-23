@@ -7,13 +7,18 @@ class Biblioteca():
         self.listaLibros.append(libro)
 
     def eliminarLibro(self, id):
-        return None
+        for libro in self.listaLibros:
+            if libro.id == id:
+                self.listaLibros.remove(libro)
 
     def agregarCompra(self, compra):
         self.listaCompras.append(compra)
 
     def eliminarCompra(self, id):
-        return None
+        for libro in self.listaLibros:
+            if libro.id == id:
+                print(libro)
+                self.listaLibros.remove(libro)
 
     def __str__(self):
         return None

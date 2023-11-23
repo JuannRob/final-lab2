@@ -95,7 +95,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">background-color:rgb(254, 120, 75);
-color:rgb(255, 255, 127)
+color:white
 </string>
      </property>
      <property name="orientation">
