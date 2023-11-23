@@ -118,6 +118,26 @@
             </column>
             <column>
              <property name="text">
+              <string>Género</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Categoria</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Sinopsis</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Formato</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
               <string>Precio</string>
              </property>
             </column>

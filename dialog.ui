@@ -94,7 +94,9 @@
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color:rgb(254, 120, 75);</string>
+      <string notr="true">background-color:rgb(254, 120, 75);
+color:rgb(255, 255, 127)
+</string>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

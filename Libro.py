@@ -48,7 +48,7 @@ class Ebook(Libro):
         self.formato = formato
 
     def estaDisponible(self):
-        return 'No fisico'
+        return True
 
     def reducirStock(self):
         pass
