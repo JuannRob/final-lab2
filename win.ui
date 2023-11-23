@@ -14,8 +14,11 @@
    <string>LibreriApp</string>
   </property>
   <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255);
-    </string>
+   <string notr="true">background-color: rgb(255, 255, 255);
+QPushButton#comprar:disabled
+{
+	color: rgb(255, 85, 0);
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -182,7 +185,9 @@
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">border-radius: 24; background-color:rgb(35, 197, 94)</string>
+                <string notr="true">border-radius: 25; 
+background-color:rgb(35, 197, 94);
+border-color: rgb(0, 0, 0);</string>
                </property>
                <property name="text">
                 <string/>
@@ -193,8 +198,8 @@
                </property>
                <property name="iconSize">
                 <size>
-                 <width>30</width>
-                 <height>30</height>
+                 <width>52</width>
+                 <height>52</height>
                 </size>
                </property>
               </widget>
