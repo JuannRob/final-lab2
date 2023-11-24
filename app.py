@@ -96,6 +96,8 @@ class VentanaPrincipal(QMainWindow):
             # trae el cliente generado en el dialogo
             self.cliente = loginDialog.getCliente()
             self.compra = Compra(self.cliente)  # lo agrega a la compra
+            self.usuario.setText(
+                f'Usuario: {self.cliente.nombre} {self.cliente.apellido} ({self.cliente.email})')
 
     def actualizarCompra(self):
         # limpia carrito
@@ -119,9 +121,16 @@ class VentanaPrincipal(QMainWindow):
             self.total.setText('Total')
 
     def actualizarBiblioteca(self):
-        # limpio tabla y me posiciono en el lugar 0 de la tabla
+        # limpio tabla
         self.tabla.clear()
+        # creo las columnas de nuevo después del clear() que borra todo
+        columnas = ['ID', 'Título', 'Autor', 'Fecha', 'Páginas',
+                    'Editorial', 'Género', 'Categoría', 'Sinopsis', 'Formato', 'Precio']
+        self.tabla.setHorizontalHeaderLabels(columnas)  # inserto las columnas
+
+        # me posiciono en el lugar 0 de la tabla
         self.tabla.setRowCount(0)
+
         # por cada libro de la biblio si está disponible (stock) carga la tabla
         for libro in self.biblioteca.listaLibros:
             if libro.estaDisponible():

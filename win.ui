@@ -44,7 +44,7 @@ border-radius: 20;
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
          <property name="spacing">
           <number>0</number>
          </property>
@@ -55,9 +55,9 @@ border-radius: 20;
           <number>9</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>15</number>
          </property>
-         <item alignment="Qt::AlignLeft|Qt::AlignBottom">
+         <item>
           <widget class="QLabel" name="titulo">
            <property name="font">
             <font>
@@ -73,6 +73,34 @@ border: none</string>
            </property>
            <property name="text">
             <string>LibreriApp</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="usuario">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>750</width>
+             <height>750</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Usuario no registrado</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="wordWrap">
+            <bool>false</bool>
+           </property>
+           <property name="margin">
+            <number>10</number>
            </property>
           </widget>
          </item>
