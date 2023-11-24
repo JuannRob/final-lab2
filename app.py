@@ -16,18 +16,15 @@ class LoginDialog(QDialog):
             QDialogButtonBox.StandardButton.Ok).setEnabled(False)
         self.buttonBox.button(
             QDialogButtonBox.StandardButton.Ok).setStyleSheet(
-                "background-color: rgb(203, 95, 59); color: rgb(204, 204, 204);")  # pone color de deshabilitado
+                "background-color: rgb(203, 95, 59); color: rgb(204, 204, 204);")
 
-        # cuando se modifica cualquier input llama a la funcion onChange
         self.nombre.textChanged.connect(self.onChange)
         self.apellido.textChanged.connect(self.onChange)
         self.email.textChanged.connect(self.onChange)
 
     def onChange(self):
-        # guardo el boton Ok
         okBtn = self.buttonBox.button(QDialogButtonBox.StandardButton.Ok)
 
-        # si todos los inputs tienen texto se habilita el boton Ok. cambia el color respectivamente
         if self.nombre.text() and self.apellido.text() and self.email.text():
             okBtn.setEnabled(True)
             okBtn.setStyleSheet(
@@ -37,7 +34,6 @@ class LoginDialog(QDialog):
             okBtn.setStyleSheet(
                 "background-color: rgb(203, 95, 59); color: rgb(204, 204, 204);")
 
-    # crea y retorna un Cliente con los datos de los inputs
     def getCliente(self):
         nombre = self.nombre.text()
         apellido = self.apellido.text()
@@ -50,31 +46,25 @@ class VentanaPrincipal(QMainWindow):
         super().__init__()
         uic.loadUi("./win.ui", self)
 
-        # asigna los botones de la app a funciones
         self.agregarLibro.clicked.connect(self.onAgregarLibro)
         self.comprar.clicked.connect(self.onComprar)
         self.quitarSeleccion.clicked.connect(self.onQuitarSeleccion)
         self.quitarTodos.clicked.connect(self.onQuitarTodos)
 
-        # deshabilita el boton comprar desde el comienzo y le cambia el color
         self.comprar.setEnabled(False)
         self.comprar.setStyleSheet(
             'background: rgb(25, 146, 69); border-radius:  24; color: white')
 
-        # crea los objetos importantes, en el caso de cliente y compra estan vacíos al comienzo
-        # llama a la funcion para ingresar
         self.biblioteca = Biblioteca()
         self.cliente = None
         self.compra = None
         self.ingresar()
 
-        archivo = open('./libros.csv')  # abre el archivo csv
+        archivo = open('./libros.csv')
         data = csv.reader(archivo, delimiter=',',
-                          quotechar='"')  # este objeto lee csv
-        data.__next__()  # salta la primera linea (nombre de los campos)
+                          quotechar='"')
+        data.__next__()  # salta la primera linea
 
-        # por cada fila da la data, crea un nuevoLibro vacio y dependiendo de si está la columna
-        # 14 o no crea un libro fisico o ebook y le pasa los datos de la fila del csv
         for fila in data:
             nuevoLibro = None
             if (not fila[14]):
@@ -83,32 +73,27 @@ class VentanaPrincipal(QMainWindow):
             else:
                 nuevoLibro = Ebook(fila[0], fila[1], fila[2], fila[3],
                                    fila[4], fila[5], fila[6], fila[7], fila[8], fila[9], fila[13], fila[14])
-            self.biblioteca.agregarLibro(nuevoLibro)  # guarda libro en biblio
-        archivo.close()  # cierra el archivo
+            self.biblioteca.agregarLibro(nuevoLibro)
+        archivo.close()
 
-        self.actualizarBiblioteca()  # llama a la primera carga de tabla
+        self.actualizarBiblioteca()
 
     def ingresar(self):
-        # crea el dialogo login
         loginDialog = LoginDialog()
-        # si el boton presionado es ok se ejecuta lo siguiente:
         if loginDialog.exec():
-            # trae el cliente generado en el dialogo
             self.cliente = loginDialog.getCliente()
-            self.compra = Compra(self.cliente)  # lo agrega a la compra
+            self.compra = Compra(self.cliente)
             self.usuario.setText(
                 f'Usuario: {self.cliente.nombre} {self.cliente.apellido} ({self.cliente.email})')
 
     def actualizarCompra(self):
-        # limpia carrito
         self.carrito.clear()
-        # por cada libro en la compra agrega la info a la lista y calcula total
+
         for libro in self.compra.librosComprados:
             self.carrito.addItem(
                 f'{libro.titulo} - {libro.autor} |  ${str(libro.precio)}')
         self.total.setText('$ ' + str(self.compra.calcularTotal()))
 
-        # activa o desactiva el boton y le cambia el color en cada caso
         if self.carrito.count():
             self.comprar.setEnabled(True)
             self.comprar.setStyleSheet(
@@ -121,17 +106,14 @@ class VentanaPrincipal(QMainWindow):
             self.total.setText('Total')
 
     def actualizarBiblioteca(self):
-        # limpio tabla
         self.tabla.clear()
-        # creo las columnas de nuevo después del clear() que borra todo
+
         columnas = ['ID', 'Título', 'Autor', 'Fecha', 'Páginas',
                     'Editorial', 'Género', 'Categoría', 'Sinopsis', 'Formato', 'Precio']
-        self.tabla.setHorizontalHeaderLabels(columnas)  # inserto las columnas
+        self.tabla.setHorizontalHeaderLabels(columnas)
 
-        # me posiciono en el lugar 0 de la tabla
         self.tabla.setRowCount(0)
 
-        # por cada libro de la biblio si está disponible (stock) carga la tabla
         for libro in self.biblioteca.listaLibros:
             if libro.estaDisponible():
                 posicionFila = self.tabla.rowCount()
@@ -163,44 +145,36 @@ class VentanaPrincipal(QMainWindow):
                     posicionFila, 10, QTableWidgetItem('$ ' + str(libro.precio)))
 
     def onAgregarLibro(self):
-        # habilita el boton comprar
         self.comprar.setEnabled(True)
 
-        # si el cliente no esta ingresado muestra login
         if self.cliente == None:
             self.ingresar()
         else:
-            # fila actual de la tabla e id del libro seleccionado en la tabla
             filaActual = self.tabla.currentRow()
             idSeleccionada = self.tabla.item(filaActual, 0).text()
 
-            # chequeo que el libro no esté en el carrito ya
             libroEnCarrito = False
             for libro in self.compra.librosComprados:
                 if idSeleccionada == libro.id:
                     libroEnCarrito = True
 
-            # si no esta, busco el libro por id en la biblio y lo agrego a la compra
             if not libroEnCarrito:
                 for libro in self.biblioteca.listaLibros:
                     if libro.id == idSeleccionada:
                         self.compra.agregarLibro(libro)
-                self.actualizarCompra()  # actualizo compra
+                self.actualizarCompra()
 
     def onQuitarSeleccion(self):
-        # si carrito tiene algo llama a la función quitar libro de Compra y actualizarCompra()
         if self.carrito.count():
             self.compra.quitarLibro(self.carrito.currentRow())
             self.actualizarCompra()
 
     def onQuitarTodos(self):
-        # si carrito tiene algo llama a la función quitar todos de Compra y actualizarCompra()
         if self.carrito.count():
             self.compra.quitarTodos()
             self.actualizarCompra()
 
     def onComprar(self):
-        # crea mensaje de confirmacion
         msjConfirmacion = QMessageBox()
         msjConfirmacion.setWindowTitle('Confirmación')
         msjConfirmacion.setText('¿Desea realizar la compra?')
@@ -211,11 +185,9 @@ class VentanaPrincipal(QMainWindow):
 
         if (resultado == QMessageBox.StandardButton.Yes):
 
-            # fija la fecha actual y agrega la compra a la biblioteca
             self.compra.fijarFecha()
             self.biblioteca.agregarCompra(self.compra)
 
-            # crea el mensaje de éxito
             msjExito = QMessageBox()
             msjExito.setWindowTitle('¡Éxito!')
             msjExito.setText(
@@ -224,11 +196,9 @@ class VentanaPrincipal(QMainWindow):
             msjExito.setStandardButtons(QMessageBox.StandardButton.Ok)
             msjExito.exec()
 
-            # crea y muestra recibo
             self.recibo = Recibo(self.compra)
             self.recibo.show()
 
-            # Actualizar carrito, biblio y stock
             for libro in self.compra.librosComprados:
                 libro.reducirStock()
             self.actualizarBiblioteca()
@@ -236,14 +206,12 @@ class VentanaPrincipal(QMainWindow):
 
 
 class Recibo(QMainWindow):
-    # al recibo le paso el objeto compra para que tenga todos los metodos y atributos
     def __init__(self, compra):
         super().__init__()
         uic.loadUi("./recibo.ui", self)
-        self.salir.clicked.connect(self.onSalir)  # el boton llama a onSalir
-        self.compra = compra  # aca guardo el objeto compra
+        self.salir.clicked.connect(self.onSalir)
+        self.compra = compra
 
-        # agrego la data del objeto compra para mostrar la info
         self.cliente.setText(str(self.compra.cliente))
         self.total.setText('Total: $' + str(self.compra.calcularTotal()))
         self.fecha.setText(
@@ -252,7 +220,6 @@ class Recibo(QMainWindow):
             self.librosLista.addItem(
                 f'{libro.titulo} - {libro.autor} |  ${str(libro.precio)}')
 
-    # cierra la ventana
     def onSalir(self):
         self.close()
 
