@@ -14,11 +14,8 @@
    <string>LibreriApp</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 255, 255);
-QPushButton#comprar:disabled
-{
-	color: rgb(255, 85, 0);
-}</string>
+   <string notr="true">background-color: rgb(245, 244, 249);
+</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -27,10 +24,19 @@ QPushButton#comprar:disabled
       <property name="spacing">
        <number>6</number>
       </property>
+      <property name="leftMargin">
+       <number>15</number>
+      </property>
+      <property name="rightMargin">
+       <number>15</number>
+      </property>
       <item alignment="Qt::AlignBottom">
        <widget class="QFrame" name="frame">
         <property name="styleSheet">
-         <string notr="true">background-color:rgb(255, 255, 255); border-radius: 24; </string>
+         <string notr="true">background-color:rgb(255,255,255);
+border:1px solid rgb(240, 240, 240);
+border-radius: 20;
+</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -43,10 +49,16 @@ QPushButton#comprar:disabled
           <number>0</number>
          </property>
          <property name="leftMargin">
-          <number>15</number>
+          <number>30</number>
+         </property>
+         <property name="topMargin">
+          <number>9</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
          </property>
          <item alignment="Qt::AlignLeft|Qt::AlignBottom">
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="titulo">
            <property name="font">
             <font>
              <family>Volkswagen-Serial</family>
@@ -56,7 +68,8 @@ QPushButton#comprar:disabled
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true"/>
+            <string notr="true">background-color:rgba(0,0,0,0);
+border: none</string>
            </property>
            <property name="text">
             <string>LibreriApp</string>
@@ -69,13 +82,13 @@ QPushButton#comprar:disabled
       <item>
        <layout class="QHBoxLayout" name="hLayout" stretch="7,3">
         <property name="leftMargin">
-         <number>15</number>
+         <number>0</number>
         </property>
         <property name="topMargin">
          <number>0</number>
         </property>
         <property name="rightMargin">
-         <number>15</number>
+         <number>0</number>
         </property>
         <property name="bottomMargin">
          <number>15</number>
@@ -88,7 +101,8 @@ QPushButton#comprar:disabled
           <item>
            <widget class="QTableWidget" name="tabla">
             <property name="styleSheet">
-             <string notr="true">background-color:rgb(255, 255, 255);</string>
+             <string notr="true">background-color:rgb(255, 255, 255);
+border: none</string>
             </property>
             <column>
              <property name="text">
@@ -232,7 +246,9 @@ border-color: rgb(0, 0, 0);</string>
           <item>
            <widget class="QListWidget" name="carrito">
             <property name="styleSheet">
-             <string notr="true">background-color:rgb(255, 255, 255);</string>
+             <string notr="true">background-color:rgb(255, 255, 255);
+border-radius: 10;
+border: 1px solid rgb(240,240,240)</string>
             </property>
            </widget>
           </item>
@@ -254,7 +270,8 @@ border-color: rgb(0, 0, 0);</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color:rgb(254, 120, 75);
-border-radius:10;</string>
+border-radius:10;
+color:white</string>
               </property>
               <property name="text">
                <string>Quitar seleccion</string>
@@ -271,7 +288,8 @@ border-radius:10;</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color:rgb(254, 120, 75);
-border-radius: 10;</string>
+border-radius: 10;
+color:white</string>
               </property>
               <property name="text">
                <string>Quitar todos</string>
